@@ -100,32 +100,57 @@ scanf("%s",&name);
         printf("\n\nData deleted.");
     }
 }
+
+void  searchPerson(){
+char name[20];
+Person p;
+f=fopen("persons.txt","r");
+printf("Search name:");
+scanf("%s",&name);
+    while(fread(&p,sizeof(p),1,f)){
+        if(strcmpi(name,p.name)==0){
+            printf(":------ Existing Details ------:");
+            printf("\n-------------------------------\n");
+            printf("%-20s \t%-5d\n",p.name,p.age);
+        }
+    }
+}
 int main(){
     while(1){
         int choice;
-        printf("\n----- MENU -----");
+        system("cls");
+        printf("----- MENU -----");
         printf("\n1. View Persons");
         printf("\n2. Create Person");
         printf("\n3. Update Person");
         printf("\n4. Delete Person");
-        printf("\n5. Exit");
+        printf("\n5. Search Person");
+        printf("\n6. Exit");
 
         printf("\n\nEnter choice:");
         scanf("%d",&choice);
         switch(choice){
         case 1:
             viewPerson();
+            getch();
             break;
         case 2:
             createPerson();
+            getch();
             break;
         case 3:
             updatePerson();
+            getch();
             break;
         case 4:
             deletePerson();
+            getch();
             break;
         case 5:
+            searchPerson();
+            getch();
+            break;
+        case 6:
             printf("Press any key to continue.");
             exit(0);
             break;
