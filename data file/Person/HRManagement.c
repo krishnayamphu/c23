@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<conio.h>
 #include<string.h>
+#include<stdlib.h>
 typedef struct{
 char name[20];
 int age;
@@ -65,31 +66,75 @@ remove("persons.txt");
 rename("temp.txt","persons.txt");
 printf("Data Updated.");
 }
-int main(){
-    int choice;
-    printf("----- MENU -----");
-    printf("\n1. View Persons");
-    printf("\n2. Create Person");
-    printf("\n3. Update Person");
-    printf("\n4. Delete Person");
-    printf("\n1. Exit");
 
-    printf("\n\nEnter choice:");
-    scanf("%d",&choice);
-    switch(choice){
-    case 1:
-        viewPerson();
-        break;
-    case 2:
-        createPerson();
-        break;
-    case 3:
-        updatePerson();
-        break;
-    default:
-        printf("Invalid choice.");
-        break;
+
+void deletePerson(){
+char name[20];
+char confirm;
+Person p;
+f=fopen("persons.txt","r");
+fp=fopen("temp.txt","w");
+printf("Delete name:");
+scanf("%s",&name);
+
+    while(fread(&p,sizeof(p),1,f)){
+        if(strcmpi(name,p.name)==0){
+            printf(":------ Existing Details ------:");
+            printf("\n-------------------------------\n");
+            printf("%-20s \t%-5d\n",p.name,p.age);
+        }
     }
+    rewind(f);
+    printf("Are you sure delete this recored? [y/n]:");
+    confirm=getche();
+    if(confirm=='y'||confirm=='Y'){
+        while(fread(&p,sizeof(p),1,f)){
+            if(strcmpi(name,p.name)!=0){
+                fwrite(&p,sizeof(p),1,fp);
+            }
+        }
+        fclose(f);
+        fclose(fp);
+        remove("persons.txt");
+        rename("temp.txt","persons.txt");
+        printf("\n\nData deleted.");
+    }
+}
+int main(){
+    while(1){
+        int choice;
+        printf("\n----- MENU -----");
+        printf("\n1. View Persons");
+        printf("\n2. Create Person");
+        printf("\n3. Update Person");
+        printf("\n4. Delete Person");
+        printf("\n5. Exit");
+
+        printf("\n\nEnter choice:");
+        scanf("%d",&choice);
+        switch(choice){
+        case 1:
+            viewPerson();
+            break;
+        case 2:
+            createPerson();
+            break;
+        case 3:
+            updatePerson();
+            break;
+        case 4:
+            deletePerson();
+            break;
+        case 5:
+            printf("Press any key to continue.");
+            exit(0);
+            break;
+        default:
+            printf("Invalid choice.");
+            break;
+        }
+    }
+
 getch();
 return 0;
 }
